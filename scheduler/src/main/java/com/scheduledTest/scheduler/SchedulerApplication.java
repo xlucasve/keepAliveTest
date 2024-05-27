@@ -1,5 +1,7 @@
 package com.scheduledTest.scheduler;
 
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -18,15 +20,21 @@ public class SchedulerApplication {
 	}
 	@Scheduled(fixedDelay = 1000*60)
 	public void scheduleFixedDelayTask() {
+		try {
 
-		String GET_URL = "https://movieplay-api.onrender.com/api/v1/movies/new?page=0&size=1";
+			Unirest.setTimeouts(0, 0);
+			HttpResponse<String> response = Unirest.post("https://movieplay-api.onrender.com/api/v1/auth/login")
+					.header("Content-Type", "application/json")
+					.body("{\n    \"userEmail\": \"userEmail\",\n    \"realName\": \"realName\",\n    \"nickname\": \"nickname\",\n    \"profilePictureLink\": \"profilePictureLink\"\n}")
+					.asString();
 
-		RestTemplate restTemplate = new RestTemplate();
 
-		String result = restTemplate.getForObject(GET_URL, String.class);
+			System.out.println(response.getBody());
 
-		System.out.println(result);
 
+		} catch (Exception e){
+			System.out.println(e.getMessage());
+		}
 	}
 
 }
