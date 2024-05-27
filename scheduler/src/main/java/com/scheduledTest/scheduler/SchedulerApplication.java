@@ -23,17 +23,15 @@ public class SchedulerApplication {
 		try {
 
 			Unirest.setTimeouts(0, 0);
-			HttpResponse<String> response = Unirest.post("https://movieplay-api.onrender.com/api/v1/auth/login")
-					.header("Content-Type", "application/json")
-					.body("{\n    \"userEmail\": \"userEmail\",\n    \"realName\": \"realName\",\n    \"nickname\": \"nickname\",\n    \"profilePictureLink\": \"profilePictureLink\"\n}")
+			HttpResponse<String> response = Unirest.get("https://movieplay-api.onrender.com/api/v1/keep/")
 					.asString();
 
-
-			System.out.println(response.getBody());
+			System.out.println("is working? " + response.getBody());
 
 
 		} catch (Exception e){
 			System.out.println(e.getMessage());
+			System.out.println("Error calling");
 		}
 	}
 
